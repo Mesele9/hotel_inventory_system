@@ -36,9 +36,3 @@ session = Session()
 
 # close the session 
 session.close()
-
-
-# create the database tables
-Base.metadata.create_all(engine)
-
-

@@ -50,7 +50,6 @@ class IssueOrder(Base):
     id = Column(Integer, primary_key=True)
     order_date = Column(Date, nullable=False, default=datetime.now().date())
     recipient = Column(String(255))
-    status = Column(String(255))
     status = Column(String(50))
     created_by = Column(Integer, ForeignKey('user.id'))
 
@@ -74,6 +73,6 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
-    username = Column(String(255), nullable=False)
+    username = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
     role = Column(String(50), nullable=False)

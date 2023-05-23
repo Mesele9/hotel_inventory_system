@@ -9,8 +9,8 @@ load_dotenv('.env')
 
 db_username = os.environ.get('DB_USERNAME')
 db_password = os.environ.get('DB_PASSWORD')
-db_host = os.environ('DB_HOST')
-db_name = os.environ('DB_NAME')
+db_host = os.environ.get('DB_HOST')
+db_name = os.environ.get('DB_NAME')
 
 
 # Create the database engine

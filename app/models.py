@@ -14,7 +14,7 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
-    category = Column(String(255))
+    category = Column(String(255), nullable=False)
     quantity = Column(Integer)
     unit_price = Column(DECIMAL(10, 2))
 

@@ -25,7 +25,6 @@ Base.metadata.create_all(engine)
 # create a session factory
 Session  = sessionmaker(bind=engine)
 
-
 # create a session instance
 session = Session()
 

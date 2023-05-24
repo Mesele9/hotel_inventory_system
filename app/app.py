@@ -31,14 +31,56 @@ def index():
     #     inspector = db.ispect(db.engine)
     #     table_names = inspector.get_table_names()
     #     return table_names
-    return 'hello mesele'
+    return redirect(url_for('login'))
 
+
+
+@app.route('/login', methods=('GET', 'POST'))
+def login():
+    return render_template('login.html')
 
 @app.route('/table')
 def show_table():
     inspector = db.inspect(engine)
     table_names = inspector.get_table_names()
     return table_names
+
+
+@app.route('/add_user', methods=['GET','POST'])
+def add_user():
+#    return render_template('add_user.html')
+    if request.method == 'POST':
+        # get the data from form
+        name = request.form["name"]
+        username = request.form["username"] 
+        password = request.form["password"]
+        role = request.form["role"]
+
+        # create the user
+        new_user = User(name=name, username=username, password=password, role=role)   
+    
+        # add the user to the session
+        db.session.add(new_user)
+
+        # commit the session
+        db.session.commit()
+
+        
+        return redirect(url_for('login'))
+    
+    return render_template('add_user.html')
+
+    
+@app.route('/users')
+def user_list():
+    users = db.session.execute(db.select(User)).scalars()
+    user=[]
+    for u in users:
+        user.append(u.name)
+    return user
+
+
+
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from .db import engine
 
 load_dotenv('.env')
@@ -20,6 +21,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 db = SQLAlchemy()
 db.init_app(app)
 #db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 from .models import *
 

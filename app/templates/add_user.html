@@ -1,8 +1,30 @@
-<form action="/add_user" method="POST">
-    <input type="text" name="name" placeholder="Employee Name" required>
-    <input type="text" name="username" placeholder="User Name" required>
-    <input type="text" name="password" placeholder="Password">
-    <input type="text" name="role" placeholder="Role" required>
-    <button type="submit">Add User</button>
-  </form>
-  
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <h2 class="mb-3">Register New User</h2>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form action="/add_user" method="POST">
+          <div class="mb-3"><input type="text" class="form-control" name="name" placeholder="Employee Name" required></div>
+          <div class="mb-3"><input type="text" class="form-control" name="username" placeholder="User Name" required></div>
+          <div class="mb-3"><input type="text" class="form-control" name="password" placeholder="Password"></div>
+          <div class="mb-3"> 
+            <select class="form-select" name="role" required>
+              <option value="" selected disabled>Select Role</option>
+              <option value="ADMIN">ADMIN</option>
+              <option value="MANAGER">MANAGER</option>
+              <option value="STORE_KEEPER">STORE KEEPER</option>
+              <option value="USER">USER</option>
+            </select> 
+          </div>
+        <div class="mb-3"><button type="submit"  class="w-100 btn btn-primary">Add User</button></div>
+        </form>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

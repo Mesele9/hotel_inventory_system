@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base
+from .models import Base
 
 # load environment variable from the .env file
 load_dotenv('.env')
@@ -19,10 +19,11 @@ engine = create_engine(db_url)
 
 
 # create all the tables
+#Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 
-# create a session factory
+# create a sesion factory
 Session  = sessionmaker(bind=engine)
 
 # create a session instance

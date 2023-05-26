@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from db import engine
+from .db import engine
 
 load_dotenv('.env')
 
@@ -17,13 +17,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://{}:{}@{}/{}".format(
     db_username, db_password, db_host, db_name)
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 
-#db.init_app(app)
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+db.init_app(app)
+#db = SQLAlchemy(app)
 
-from models import *
-# # Set up the database connection
-# with app.app_context():
-#     db.create_all()
+from .models import *
+
 
 @app.route('/')
 def index():   
@@ -31,7 +30,7 @@ def index():
     #     inspector = db.ispect(db.engine)
     #     table_names = inspector.get_table_names()
     #     return table_names
-    return redirect(url_for('login'))
+    return render_template('base.html')
 
 
 
@@ -50,20 +49,26 @@ def show_table():
 def add_user():
 #    return render_template('add_user.html')
     if request.method == 'POST':
-        # get the data from form
-        name = request.form["name"]
-        username = request.form["username"] 
-        password = request.form["password"]
-        role = request.form["role"]
-
-        # create the user
-        new_user = User(name=name, username=username, password=password, role=role)   
+        error = False
+        try:
+            name = request.form["name"]
+            username = request.form["username"] 
+            password = request.form["password"]
+            role = request.form["role"]
+      
+      
+            # create the user
+            new_user = Users(name=name, username=username, password=password, role=role)   
     
-        # add the user to the session
-        db.session.add(new_user)
+            # add the user to the session
+            db.session.add(new_user)
 
-        # commit the session
-        db.session.commit()
+            # commit the session
+            db.session.commit()
+        except ValueError:
+            error = True
+            return render_template('add_user.html', error=error)
+    
 
         
         return redirect(url_for('login'))
@@ -73,12 +78,52 @@ def add_user():
     
 @app.route('/users')
 def user_list():
-    users = db.session.execute(db.select(User)).scalars()
-    user=[]
-    for u in users:
-        user.append(u.name)
-    return user
+    result = db.session.execute(db.select(Users)).scalars()
+    users_list = []
+    for u in result:
+        users_list.append(u.username)
+    return users_list
 
+
+@app.route('/delete_user/<int:id>', methods=['GET', 'POST'])
+def delete_user(id):
+    user = db.session.query(Users).filter_by(id=id).first()
+    #request.method == 'POST':
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('add_user'))
+
+
+
+@app.route('/add_product', methods=['GET','POST'])
+def add_product():
+#    return render_template('add_user.html')
+    if request.method == 'POST':
+        error = False
+        try:
+            name = request.form["name"]
+            category = request.form["category"] 
+            quantity = request.form["quantity"]
+            unit_price = request.form["unit_price"]
+      
+      
+            # create the user
+            new_product = Product(name=name, category=category, quantity=quantity, unit_price=unit_price)   
+    
+            # add the user to the session
+            db.session.add(new_product)
+
+            # commit the session
+            db.session.commit()
+        except ValueError:
+            error = True
+            return render_template('add_product.html', error=error)
+    
+
+        
+        return redirect(url_for('add_product'))
+    
+    return render_template('add_product.html')
 
 
 

@@ -1,5 +1,6 @@
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Date, ForeignKey, DECIMAL
+from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -13,8 +14,8 @@ class Product(Base):
     __tablename__ = 'product'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False)
-    category = Column(String(255), nullable=False)
+    name = Column(String(50), nullable=False)
+    category = Column(ENUM('FOOD', 'BEVERAGE', 'CLEANING', 'STATIONERY', name='category_enum'), nullable=False)
     quantity = Column(Integer)
     unit_price = Column(DECIMAL(10, 2))
 
@@ -25,11 +26,11 @@ class PurchaseOrder(Base):
 
     id = Column(Integer, primary_key=True)
     order_date = Column(Date, nullable=False, default=datetime.now().date())
-    supplier = Column(String(255))
-    status = Column(String(50))
-    created_by = Column(Integer, ForeignKey('user.id'))
+    supplier = Column(String(50))
+    status = Column(ENUM('PREPARED', 'APPROVED', 'PURCHASED', name='purchaser_enum'), default='PREPARED')
+    created_by = Column(Integer, ForeignKey('users.id'))
 
-    user = relationship('User')
+    users = relationship('Users')
 
 
 # define PurchaseOrderItem model
@@ -49,11 +50,11 @@ class IssueOrder(Base):
 
     id = Column(Integer, primary_key=True)
     order_date = Column(Date, nullable=False, default=datetime.now().date())
-    recipient = Column(String(255))
-    status = Column(String(50))
-    created_by = Column(Integer, ForeignKey('user.id'))
+    recipient = Column(String(50))
+    status = Column(ENUM('PREPARED', 'APPROVED', 'RECEIVED', name='issue_enum'), default='PREPARED')
+    created_by = Column(Integer, ForeignKey('users.id'))
 
-    user = relationship('User')
+    users = relationship('Users')
 
 
 # define issueorderitem model
@@ -68,11 +69,11 @@ class IssueOrderItem(Base):
 
 
 # define the user model
-class User(Base):
-    __tablename__ = 'user'
+class Users(Base):
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False)
-    username = Column(String(255), nullable=False, unique=True)
-    password = Column(String(255), nullable=False)
-    role = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=False)
+    username = Column(String(50), nullable=False, unique=True)
+    password = Column(String(50), nullable=False)
+    role = Column(ENUM('ADMIN', 'STORE_KEEPER', 'MANAGER', 'PURCHASER', 'USER', name='users_enum'), nullable=False)

@@ -1,4 +1,4 @@
-from datetime import datetime
+""" from datetime import datetime
 from sqlalchemy import Column, Integer, String, Date, ForeignKey, DECIMAL
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.ext.declarative import declarative_base
@@ -77,3 +77,4 @@ class Users(Base):
     username = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
     role = Column(ENUM('ADMIN', 'STORE_KEEPER', 'MANAGER', 'PURCHASER', 'USER', name='users_enum'), nullable=False)
+ """

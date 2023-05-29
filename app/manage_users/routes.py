@@ -25,16 +25,19 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash('Login requiest for user {}, remember_me={}'.format(
-                form.username.data, form.remember_me.data))
-        return redirect('/users')
-    return render_template(('users.login.html'), title='Sign In', form=form)
+        if form.username.data == 'admin' and form.password.data == 'admin':
+            flash('You have been logged in successfully', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Login Unsuccessful, please check your Username or Password', 'danger')
+        
+    return render_template(('users_auth/login.html'), title='Sign In', form=form)
 
 @users_bp.route('/add_user', methods=['GET', 'POST'])
 def add_user():
     form = RegistrationForm()
     if form.validate_on_submit():
         flash('Account created for {}!'.format(form.username.data), 'success')
-        return "accoutn created successfully"
+        return redirect(url_for('users_bp.login'))
         
-    return render_template('add_user.html', title='Add User', form=form)
+    return render_template('users_auth/add_user.html', title='Add User', form=form)

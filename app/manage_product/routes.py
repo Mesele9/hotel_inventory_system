@@ -1,10 +1,11 @@
+from flask import Blueprint
 from flask import render_template, url_for, redirect, request
-from app.manage_product_bp import bp
 from app.dbcon import db
-#from app.models import *
+
+product_bp = Blueprint('product_bp', __name__, url_prefix='/products')
 
 
-@bp.route('/')
+@product_bp.route('/')
 def index():
     
     return ''"<h1>This is from Product Blueprint</h1>"

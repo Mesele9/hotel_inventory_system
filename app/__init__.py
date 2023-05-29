@@ -21,18 +21,19 @@ def create_app(config_class=Config):
     # import all models from Models directory
     from app.models.users import Users
     from app.models.products import Products
-    from app.user_bp.form import LoginForm 
+    from app.manage_users.form import LoginForm 
 
 
     # register blueprints
-    from app.user_bp import bp as user_bp
-    from app.manage_product_bp import bp as product_bp
-    from app.manage_purchase_bp import bp as purchase_bp
-    from app.manage_issue_bp import bp as issue_bp
-    app.register_blueprint(user_bp, url_prefix='/users')
-    app.register_blueprint(product_bp, url_prefix='/product')
-    app.register_blueprint(purchase_bp, url_prefix='/purchase')
-    app.register_blueprint(issue_bp, url_prefix='/issue')
+    from app.manage_users.routes import users_bp
+    app.register_blueprint(users_bp)
+    from app.manage_product.routes import product_bp
+    app.register_blueprint(product_bp)
+    from app.manage_purchase.routes import purchase_bp
+    app.register_blueprint(purchase_bp)
+    from app.manage_issue.routes import issue_bp
+    app.register_blueprint(issue_bp)
+
 
     @app.route('/')
     def index():

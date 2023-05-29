@@ -2,13 +2,46 @@
 
 {% block content %}
 <div class="container">
-  <div class="row justify-content-center mt-5">
-    <div class="col-md-4">
-        <h2 class="mb-3">Register New User</h2>
+<!-- 
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
-        <form action="/add_user" method="POST">
+ -->
+        <form action="/users/add_user" method="POST">
+          {{ form.hidden_tag() }}
+          <fieldset class="form-group mb-3">
+            <legend class="border-bottom">Create New User</legend>
+            <div class="form-group">
+              {{ form.name.label(class="form-control-label") }}
+              {{ form.name(class="form-control form-control-lg") }}
+            </div>
+
+            <div class="form-group mb-3">
+              {{ form.username.label(class="form-control-label") }}
+              {{ form.username(class="form-control form-control-lg") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.password.label(class="form-control-label") }}
+              {{ form.password(class="form-control form-control-lg") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.confirm_password.label(class="form-control-label") }}
+              {{ form.confirm_password(class="form-control form-control-lg") }}
+            </div>
+
+            <div class="form-group">
+              {{ form.role.label(class="form-control-label") }}
+              {{ form.role(class="form-control form-control-lg") }}
+            </div>
+          </fieldset>
+
+          <div class="form-group">
+            {{ form.submit(class="btm btn-outline-info") }}              
+          </div>
+
+<!-- 
           <div class="mb-3"><input type="text" class="form-control" name="name" placeholder="Employee Name" required></div>
           <div class="mb-3"><input type="text" class="form-control" name="username" placeholder="User Name" required></div>
           <div class="mb-3"><input type="text" class="form-control" name="password" placeholder="Password"></div>
@@ -23,7 +56,7 @@
           </div>
         <div class="mb-3"><button type="submit"  class="w-100 btn btn-primary">Add User</button></div>
         </form>
-      </div>
+      </div> -->
   </div>
 </div>
 

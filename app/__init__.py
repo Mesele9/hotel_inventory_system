@@ -3,6 +3,7 @@ from flask import Flask, render_template, url_for
 from config import Config
 from flask_migrate import Migrate
 from app.dbcon import db
+from flask_login import LoginManager
 
 
 def create_app(config_class=Config):
@@ -13,6 +14,15 @@ def create_app(config_class=Config):
     # inittialize database   
     db.init_app(app)
 
+
+    #initialize login manager
+    login_manager = LoginManager()
+    login_manager.login_view = 'users_bp.login'
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return Users.query.get(int(user_id))
 
     # initialize migration
     migrate = Migrate(app, db)

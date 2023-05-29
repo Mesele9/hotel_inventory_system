@@ -9,11 +9,11 @@ class Products(db.Model):
     product_name = db.Column(db.String(50), nullable=False)
     product_category = db.Column(db.String(50), nullable=False)
     uom = db.Column(db.String(50), nullable=False)
-    unit_price = db.Column(db.DECIMAL(10, 2), nullable=False)
+    unit_price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     reorder_level = db.Column(db.Integer, nullable=False)
 
 
     def __repr__(self):
-        return '<Product (id={}), (Name={}), (Category={}), (Quantity={}>)'.format(
+        return '<Product (Name={}), (Category={}), (Quantity={}>)'.format(
                 self.id, self.product_name, self.product_category, self.quantity)

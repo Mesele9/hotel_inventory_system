@@ -76,3 +76,23 @@ def account():
 def users_list():
     user_list = Users.query.all()
     return render_template('/users_auth/users_list.html', title='Users List', user_list=user_list)
+
+
+@users_bp.route('/<int:id>', methods=('GET', 'POST'))
+@login_required
+def user_detail(id):
+    user = db.get_or_404(Users, id)
+    return render_template('users_auth/user.html', title='User Detail', user=user)
+
+
+@users_bp.route('/<int:id>/delete', methods=('GET', 'POST'))
+@login_required
+def delete_user(id):
+    user = db.get_or_404(Users, id)
+    if current_user.role != 'admin':
+        flash('Action not allowed!', 'danger')
+        return redirect(url_for('users_bp.users_list'))
+    db.session.delete(user)
+    db.session.commit()
+    flash('User {} has been deleted!'.format(user.name), 'success')
+    return redirect(url_for('users_bp.users_list'))

@@ -64,3 +64,16 @@ def edit_products(id):
         form.quantity.data = product.quantity
         form.reorder_level.data = product.reorder_level
     return render_template('products/add_product.html', title='Edit Product', form=form, legend='Edit Product')
+
+
+@product_bp.route('/<int:id>/delete', methods=('GET', 'POST'))
+@login_required
+def delete_products(id):
+    product = db.get_or_404(Products, id)
+    if current_user.role != 'store_keeper' and current_user.role !='admin':
+        flash('Action not allowed!', 'danger')
+        return redirect(url_for('index'))
+    db.session.delete(product)
+    db.session.commit()
+    flash('Product {} has been deleted!'.format(product.product_name), 'success')
+    return redirect(url_for('product_bp.products_list'))

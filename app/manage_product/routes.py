@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask import render_template, url_for, redirect, request, flash
 from app.dbcon import db
-from flask_login import login_required
-from app.manage_product.form import NewProductForm, EditProductForm
+from flask_login import login_required, current_user
+from app.manage_product.form import NewProductForm
 
 product_bp = Blueprint('product_bp', __name__, url_prefix='/products')
 
@@ -11,9 +11,9 @@ from app.models.products import Products
 
 @product_bp.route('/')
 @login_required
-def index():
+def products_list():
     products = Products.query.all()    
-    return render_template('products/products_list.html', title='Product List', products=products)
+    return render_template('products/products_list.html', title='Products List', products=products)
 
 
 @product_bp.route('/add_product', methods=['GET', 'POST'])
@@ -27,24 +27,40 @@ def add_product():
         flash('Product: {} added to the database!'.format(form.product_name.data), 'success')
         return redirect(url_for('product_bp.add_product'))
         
-    return render_template('products/add_product.html', title='Add Product', form=form)
+    return render_template('products/add_product.html', title='Add Product', form=form, legend='Add New Product')
 
 
-@product_bp.route('/editproduct/<int:product_id>', methods=('GET', 'POST'))
+@product_bp.route('/<int:id>', methods=('GET', 'POST'))
 @login_required
-def editproduct():
-    form = EditProductForm()
+def products(id):
+    product = Products.query.filter_by(id=id).first()
+    return render_template('products/product.html', title='Product Detail', product=product)    
+   
+
+@product_bp.route('/<int:id>/edit', methods=('GET', 'POST'))
+@login_required
+def edit_products(id):
+    product = Products.query.filter_by(id=id).first()
+    if current_user.role != 'store_keeper' and current_user.role !='admin':
+        flash('Action not allowed!')
+        return redirect(url_for('index'))
+    form = NewProductForm()
     if form.validate_on_submit():
-        product_name = form.product_name.data
-        current_user.username = form.username.data
-        current_user.role = form.role.data
+        product.product_name = form.product_name.data
+        product.product_category = form.product_category.data
+        product.uom = form.uom.data
+        product.unit_price = form.unit_price.data
+        product.quantity = form.quantity.data
+        product.reorder_level = form.reorder_level.data
         db.session.commit()
-        flash('Your account has been updated!', 'success')
-        return redirect(url_for('users_bp.account'))
+        flash('Product: {} has been updated!'.format(form.product_name.data), 'success')
+        return redirect(url_for('product_bp.products', id=product.id))
+    
     elif request.method == 'GET':
-        form.name.data = current_user.name
-        form.username.data = current_user.username
-        form.role.data = current_user.role
-
-    return render_template('users_auth/account.html', title='Edit User Account', form=form)
-
+        form.product_name.data = product.product_name
+        form.product_category.data = product.product_category
+        form.uom.data = product.uom
+        form.unit_price.data = product.unit_price
+        form.quantity.data = product.quantity
+        form.reorder_level.data = product.reorder_level
+    return render_template('products/add_product.html', title='Edit Product', form=form, legend='Edit Product')

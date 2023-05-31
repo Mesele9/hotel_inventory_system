@@ -3,7 +3,7 @@ from flask import render_template, flash, url_for, request, redirect
 from app.dbcon import db
 from app.manage_users.form import LoginForm, RegistrationForm, EditAccountForm
 from flask_login import login_user, logout_user, current_user, login_required
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 users_bp = Blueprint('users_bp', __name__, url_prefix='/users')
 
@@ -19,7 +19,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(username=form.username.data).first()
-        if user and (user.password == form.password.data):
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
             flash('Welcome ({})'.format(user.name), 'success')
@@ -42,11 +42,12 @@ def logout():
 def add_user():
     form = RegistrationForm()
     if form.validate_on_submit():
-        new_user = Users(name=form.name.data, username=form.username.data, password=form.password.data, role=form.role.data)
+        new_user = Users(name=form.name.data, username=form.username.data,
+                         password=generate_password_hash(form.password.data, method='sha256'), role=form.role.data)
         db.session.add(new_user)
         db.session.commit()
         flash('Account created for {}!'.format(form.username.data), 'success')
-        return redirect(url_for('users_bp.login'))
+        return redirect(url_for('users_bp.list'))
         
     return render_template('users_auth/add_user.html', title='Add User', form=form)
 
@@ -61,7 +62,7 @@ def account():
         current_user.role = form.role.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('users_bp.account'))
+        return redirect(url_for('users_bp.users_list'))
     elif request.method == 'GET':
         form.name.data = current_user.name
         form.username.data = current_user.username
@@ -71,9 +72,7 @@ def account():
 
 
 @users_bp.route('/')
-def index():
+@login_required
+def users_list():
     user_list = Users.query.all()
-    u = []
-    for user in user_list:
-        u.append(user.username)
-    return u
+    return render_template('/users_auth/users_list.html', title='Users List', user_list=user_list)

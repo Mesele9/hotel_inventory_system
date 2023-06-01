@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import render_template, url_for, redirect, request, flash
 from app.dbcon import db
 from flask_login import login_required, current_user
-from app.manage_product.form import NewProductForm
+from app.manage_product.form import NewProductForm, EditProductForm
 
 product_bp = Blueprint('product_bp', __name__, url_prefix='/products')
 
@@ -44,7 +44,7 @@ def edit_products(id):
     if current_user.role != 'store_keeper' and current_user.role !='admin':
         flash('Action not allowed!')
         return redirect(url_for('index'))
-    form = NewProductForm()
+    form = EditProductForm()
     if form.validate_on_submit():
         product.product_name = form.product_name.data
         product.product_category = form.product_category.data

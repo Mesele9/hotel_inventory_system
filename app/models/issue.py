@@ -4,10 +4,10 @@ from app.dbcon import db
 
 # define a junction table between issue order product table
 product_issue_order = db.Table('product_issue_order',
-                                  db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
-                                  db.Column('issue_order_id', db.Integer, db.ForeignKey('issue_order.id'), primary_key=True),
-                                  db.Column('quantity', db.Integer, nullable=False) 
-)
+                               db.Column('issue_order_id', db.Integer, db.ForeignKey('issue_order.id'), primary_key=True),
+                               db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
+                               db.Column('quantity', db.Integer, nullable=False)
+                               )
 
 
 # define issueorder model

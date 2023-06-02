@@ -2,35 +2,36 @@
 
 {% block content %}
 
-<h1 class="text-center mt-3">{{ title }}</h1>
-<div class="row">
-
-    {% for p in products %}
-    <div class="col mt-2">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5 class="card-title text-center mt-2"> {{ p.product_name }}</h5>
-                <p class="card-text">{{ p.product_category }}</p>
-                <p class="card-text">Price &mdash; {{ p.unit_price }}</p>
-                <p class="card-text">Reorder Level&mdash; {{ p.reorder_level }}</p>
-                
-                <a href="{{ url_for('product_bp.edit_products', id=p.id) }}" class="btn btn-primary">Edit</a>
-                <a href="{{ url_for('product_bp.products', id=p.id) }}" class="btn btn-danger">Delete</a>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
-
+<!-- products.html -->
 <div class="container">
-    {% for product in products %}
-    <div>
-        <p><a href="{{ url_for('product_bp.products', id=product.id) }}">{{ product.product_name }}</a> {{ product.product_category }} : {{ product.unit_price }} : {{ product.quantity }}</p>
-        <hr>
-    </div>
-    {% endfor %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td><a href="{{ url_for('product_bp.products', id=product.id) }}">{{ product.product_name }}</a></td>
+                <td>{{ product.product_category }}</td>
+                <td>{{ product.unit_price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>
+                    <a href="{{ url_for('product_bp.edit_products', id=product.id) }}" class="btn btn-primary btn-sm" style="margin-right: 1.5rem;">Edit</a>
+                    <a href="{{ url_for('product_bp.delete_products', id=product.id) }}" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProductModal">Delete</a>   
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+</div>
+
 
 
 {% endblock %}

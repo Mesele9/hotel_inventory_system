@@ -1,5 +1,7 @@
-""" from app.dbcon import db
-
+from datetime import datetime
+from app.dbcon import db
+from flask_login import current_user
+from app.models import Products, Users
 
 # define the purchaseorder model
 class PurchaseOrder(db.Model):
@@ -7,14 +9,19 @@ class PurchaseOrder(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     order_date = db.Column(db.Date, nullable=False, default=datetime.now().date())
-    supplier = Column(String(50))
-    status = Column(ENUM('PREPARED', 'APPROVED', 'PURCHASED', name='purchaser_enum'), default='PREPARED')
-    created_by = Column(Integer, ForeignKey('users.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    supplier = db.Column(db.String(50))
+    status = db.Column(db.String(20), nullable=False, default='created')
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'), default=current_user.id)
 
-    users = relationship('Users')
+
+    products = db.relationship("Products", back_populates="purchaseorders")
+    users = db.relationship("Users", back_populates="orders")
 
 
-# define PurchaseOrderItem model
+
+""" # define PurchaseOrderItem model
 class PurchaseOrderItem(db.Model):
     __tablename__ = 'purchase_order_item'
 

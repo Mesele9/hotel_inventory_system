@@ -13,9 +13,7 @@ class Products(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     reorder_level = db.Column(db.Integer, nullable=False)
 
-    # purchases_order = db.relationship("PurchaseOrder", back_populates="products")
-
 
     def __repr__(self):
         return '<Product (Name={}), (Category={}), (Quantity={}>)'.format(
-                self.id, self.product_name, self.product_category, self.quantity)
+                self.id, self.product_name, self.product_category, self.unit_price, self.quantity)

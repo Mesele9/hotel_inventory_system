@@ -1,23 +1,31 @@
 from datetime import datetime
 from app.dbcon import db
-from flask_login import current_user
-from app.models import Products, Users
+
+
+
+# define a junction table between purchase order product table
+product_purchase_order = db.Table('product_purchase_order',
+                                  db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
+                                  db.Column('purchase_order_id', db.Integer, db.ForeignKey('purchase_order.id'), primary_key=True),
+                                  db.Column('quantity', db.Integer, nullable=False),
+                                  extend_existing=True
+                                )
+
 
 # define the purchaseorder model
 class PurchaseOrder(db.Model):
     __tablename__ = 'purchase_order'
-
+    
     id = db.Column(db.Integer, primary_key=True)
     order_date = db.Column(db.Date, nullable=False, default=datetime.now().date())
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
     supplier = db.Column(db.String(50))
     status = db.Column(db.String(20), nullable=False, default='created')
-    created_by = db.Column(db.Integer, db.ForeignKey('users.id'), default=current_user.id)
 
 
-    products = db.relationship("Products", back_populates="purchaseorders")
-    users = db.relationship("Users", back_populates="orders")
+    users = db.relationship('Users', backref='purchase_order')    
+    products = db.relationship('Products', secondary=product_purchase_order, backref=db.backref('purchase_order', lazy='dynamic'),
+                               cascade='all, delete-orphan')
 
 
 
@@ -25,10 +33,7 @@ class PurchaseOrder(db.Model):
 class PurchaseOrderItem(db.Model):
     __tablename__ = 'purchase_order_item'
 
-    id = Column(Integer, primary_key=True)
-    order_id = Column(Integer, ForeignKey('purchase_order.id'))
-    product_id = Column(Integer, ForeignKey('product.id'))
-    quantity = Column(Integer)
-    unit_price = Column(DECIMAL(10, 2))
-
- """
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('purchase_order.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False) """

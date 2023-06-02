@@ -1,25 +1,26 @@
-""" from app.dbcon import db
+from datetime import datetime
+from app.dbcon import db
+
+
+# define a junction table between issue order product table
+product_issue_order = db.Table('product_issue_order',
+                                  db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
+                                  db.Column('issue_order_id', db.Integer, db.ForeignKey('issue_order.id'), primary_key=True),
+                                  db.Column('quantity', db.Integer, nullable=False) 
+)
+
 
 # define issueorder model
-class IssueOrder(Base):
+class IssueOrder(db.Model):
     __tablename__ = 'issue_order'
 
-    id = Column(Integer, primary_key=True)
-    order_date = Column(Date, nullable=False, default=datetime.now().date())
-    recipient = Column(String(50))
-    status = Column(ENUM('PREPARED', 'APPROVED', 'RECEIVED', name='issue_enum'), default='PREPARED')
-    created_by = Column(Integer, ForeignKey('users.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    requested_date = db.Column(db.Date, nullable=False, default=datetime.now().date())
+    requested_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    status = db.Column(db.String(20), default='REQUESTED')
 
-    users = relationship('Users')
+    
+    users = db.relationship("Users", backref="issues_order")
+    products = db.relationship('Products', secondary=product_issue_order, backref=db.backref('issue_order', lazy='dynamic'),
+                               cascade='all, delete-orphan')
 
-
-# define issueorderitem model
-class IssueOrderItem(Base):
-    __tablename__ = 'issue_order_item'
-
-    id = Column(Integer, primary_key=True)
-    order_id = Column(Integer, ForeignKey('issue_order.id'))
-    product_id = Column(Integer, ForeignKey('product.id'))
-    quantity = Column(Integer)
-    unit_price = Column(DECIMAL(10, 2))
- """

@@ -13,6 +13,7 @@ class Users(db.Model, UserMixin):
     password = db.Column(db.String(256), nullable=False)
     role = db.Column(db.String(50), nullable=False)
 
+
     def __repr__(self):
         return '<User (Name: {}, Username: {}) Role: {}'.format(self.name, self.username, self.role)
     

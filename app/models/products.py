@@ -13,6 +13,8 @@ class Products(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     reorder_level = db.Column(db.Integer, nullable=False)
 
+    purchase = db.relationship('ProductPurchaseOrder', backref='products', lazy='dynamic')
+    issue = db.relationship('ProductIssueOrder', backref='products', lazy='dynamic')
 
     def __repr__(self):
         return '<Product (Name={}), (Category={}), (Quantity={}>)'.format(

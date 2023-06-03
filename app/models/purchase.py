@@ -2,16 +2,6 @@ from datetime import datetime
 from app.dbcon import db
 
 
-
-# define a junction table between purchase order product table
-product_purchase_order = db.Table('product_purchase_order',
-                                  db.Column('purchase_order_id', db.Integer, db.ForeignKey('purchase_order.id'), primary_key=True),
-                                  db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
-                                  db.Column('quantity', db.Integer, nullable=False),
-                                  extend_existing=True
-                                )
-
-
 # define the purchaseorder model
 class PurchaseOrder(db.Model):
     __tablename__ = 'purchase_order'
@@ -23,7 +13,11 @@ class PurchaseOrder(db.Model):
     status = db.Column(db.String(20), nullable=False, default='created')
 
 
-    users = db.relationship('Users', backref='purchase_order')    
-    products = db.relationship('Products', secondary=product_purchase_order, backref=db.backref('purchase_order', lazy='dynamic'),
-                               cascade='all, delete-orphan')
+    users = db.relationship('Users', backref='purchase_order')   
+    products = db.relationship('ProductPurchaseOrder', backref='purchase_order') 
+
+
+    def __repr__(self):
+        return '<Purchase Order: {} : {}>'.format(self.id, self.status)
+    
 

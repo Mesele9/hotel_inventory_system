@@ -1,4 +1,6 @@
 from app.dbcon import db
+from app.models.purchase import ProductPurchaseOrder
+from app.models.issue import ProductIssueOrder
 
 
 # define the product model
@@ -13,8 +15,8 @@ class Products(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     reorder_level = db.Column(db.Integer, nullable=False)
 
-    purchase = db.relationship('ProductPurchaseOrder', backref='products', lazy='dynamic')
-    issue = db.relationship('ProductIssueOrder', backref='products', lazy='dynamic')
+    purchase_order = db.relationship('ProductPurchaseOrder', backref='products', lazy='dynamic', cascade='all, delete')
+    issue_order = db.relationship('ProductIssueOrder', backref='products', lazy='dynamic', cascade='all, delete')
 
     def __repr__(self):
         return '<Product (Name={}), (Category={}), (Quantity={}>)'.format(

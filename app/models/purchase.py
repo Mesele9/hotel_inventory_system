@@ -1,6 +1,6 @@
 from datetime import datetime
 from app.dbcon import db
-
+from flask_login import current_user
 
 # define a junction class between purchase order product table
 class ProductPurchaseOrder(db.Model):
@@ -14,6 +14,7 @@ class ProductPurchaseOrder(db.Model):
     def __repr__(self):
         return '<ProductPurchaseOrder (PurchaseOrder={}, Product={}, Quantity={})>'.format(
                 self.purchase_order_id, self.product_id, self.quantity)
+
 
 # define the purchaseorder model
 class PurchaseOrder(db.Model):
@@ -31,6 +32,6 @@ class PurchaseOrder(db.Model):
 
 
     def __repr__(self):
-        return '<Purchase Order: {} {}: {}>'.format(self.id, self.created_by, self.status)
+        return '<Purchase Order: ID={} User ID={}: Status={}>'.format(self.id, self.created_by, self.status)
     
 

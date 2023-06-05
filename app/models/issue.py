@@ -27,7 +27,7 @@ class IssueOrder(db.Model):
 
 
     users = db.relationship("Users", backref="issue_order")
-    products_issue = db.relationship('ProductIssueOrder', backref='issue_order', lazy='dynamic', cascade='all, delete')
+    products = db.relationship('ProductIssueOrder', backref='issue_order', lazy='dynamic', cascade='all, delete')
 
     
     def __repr__(self):

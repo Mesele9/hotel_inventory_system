@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- products.html -->
+<div class="container">
+   <h2>Purchase Orders:</h2>
+    {% for purchase_order in purchase_orders %}
+      <div class="purchase-order">
+        <h3>Purchase Order: {{ purchase_order.id }}</h3>
+        <p>Order Date: {{ purchase_order.order_date }}</p>
+        <p>Created By: {{ purchase_order.created_by }}</p>
+        <p>Supplier: {{ purchase_order.supplier }}</p>
+        <h4>Products:</h4>
+        <ul>
+          {% for product_purchase_order in purchase_order.products %}
+            <li>
+              Product Name: {{ product_purchase_order.products.product_id }}
+              <br>
+              Quantity: {{ product_purchase_order.quantity }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}    
+</div>
+
+
+{% endblock %}

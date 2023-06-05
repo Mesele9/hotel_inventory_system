@@ -14,7 +14,7 @@ purchase_bp = Blueprint('purchase_bp', __name__, url_prefix='/purchase')
 @purchase_bp.route('/')
 @login_required
 def purchase_list():
-    purchase_orders = PurchaseOrder.query.all()    
+    purchase_orders = PurchaseOrder.query.all()
     return render_template('purchase/purchase_list.html', title='Purchase List', purchase_orders=purchase_orders)
     
 

@@ -15,7 +15,8 @@
         <ul>
           {% for product_purchase_order in purchase_order.products %}
             <li>
-              Product Name: {{ product_purchase_order.products.product_id }}
+              
+              Product Name: {{ product_purchase_order.product_id }}
               <br>
               Quantity: {{ product_purchase_order.quantity }}
             </li>

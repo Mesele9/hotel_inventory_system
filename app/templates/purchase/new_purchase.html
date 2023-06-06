@@ -2,82 +2,53 @@
 
 {% block content %}
 
-  <!--  <h2>Enter Purchase Order Details:</h2>
-    <form method="POST" action="{{ url_for('purchase_bp.create_purchase_order')}}">
-      {{ form.csrf_token }}
-      {{ form.order_date.label }} {{ form.order_date }}<br><br>
-      {{ form.created_by.label }} {{ form.created_by }}<br><br>
-      {{ form.supplier.label }} {{ form.supplier }}<br><br>
-
-      <h3>Products:</h3>
-      <div id="products-container">
-        {% for field in form.products %}
-          <div class="product-row">
-            {{ field.label }} {{ field.product_id }}
-            {{ field.label }} {{ field.quantity }}
-            <button type="button" class="remove-product">Remove</button>
-          </div>
-        {% endfor %}
+<form method="POST" action="{{ url_for('purchase_bp.create_purchase_order') }}">
+  {{ form.csrf_token }}
+  
+  <h2>Create Purchase Order</h2>
+  
+  {{ form.supplier.label }}
+  {{ form.supplier(class="form-control") }}
+  
+  <div id="products-container">
+    {% for field in form.products %}
+      <div class="product-entry">
+        {{ field.product.label }}
+        {{ field.product(class="form-control") }}
+        {{ field.quantity.label }}
+        {{ field.quantity(class="form-control") }}
+        {% if loop.index > 0 %}
+          <button type="button" class="btn btn-danger remove-product">Remove</button>
+        {% endif %}
       </div>
-      <button type="button" id="add-product">Add Product</button>
-
-      <div class="form-group">{{ form.submit(class='btn btn-outline-info mt-3') }}</div>
-
-    </form> -->
-
-
-
-<div class="container justify-content-center col-md-4">
-      <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <legend class="border-bottom">{{ legend }}</legend>
-            <div class="form-group">
-              {{ form.order_date.label(class="form-control-label") }}
-              {{ form.order_date(class="form-control form-control-lg") }}
-              {% for error in form.order_date.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-              {% endfor %}
-            </div>
-
-            <div class="form-group">
-              {{ form.created_by.label(class="form-control-label") }}
-              {{ form.created_by(class="form-control form-control-lg") }}
-              {% for error in form.created_by.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-              {% endfor %}
-            </div>
-
-            <div class="form-group">
-              {{ form.supplier.label(class="form-control-label") }}
-              {{ form.supplier(class="form-control form-control-lg") }}
-              {% for error in form.supplier.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-              {% endfor %}
-            </div>
-
-            <div class="form-group">
-              {{ form.status.label(class="form-control-label") }}
-              {{ form.status(class="form-control form-control-lg") }}
-              {% for error in form.status.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-              {% endfor %}
-            </div>
-
-            <div class="form-group">
-                {% for field in form.products %}
-                    {{ field.label}} {{ field }}
-                    <button type="button" class="remove-product">Remove</button>
-                {% endfor %}
+    {% endfor %}
+  </div>
+  
+  <button type="button" class="btn btn-primary" id="add-product">Add Product</button>
+  <br><br>
+  
+  {{ form.submit(class="btn btn-primary") }}
+</form>
 
 
 
-              {% for error in form.products.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-              {% endfor %}
-            </div>
-            
-            <div class="form-group">{{ form.submit(class='btn btn-outline-info mt-3') }}</div>
-    </form>
-</div>
+
+<script>
+  // JavaScript code for dynamically adding/removing product fields
+  document.addEventListener('DOMContentLoaded', function() {
+    var addProductButton = document.getElementById('add-product');
+    var productsContainer = document.getElementById('products-container');
+    var productEntry = document.querySelector('.product-entry');
+    var productIndex = 0;
+    
+    addProductButton.addEventListener('click', function() {
+      var clone = productEntry.cloneNode(true);
+      clone.querySelector('.remove-product').addEventListener('click', function() {
+        this.parentNode.remove();
+      });
+      productsContainer.appendChild(clone);
+    });
+  });
+</script>
 
 {% endblock %}

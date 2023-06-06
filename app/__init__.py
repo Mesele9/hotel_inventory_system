@@ -4,16 +4,18 @@ from config import Config
 from flask_migrate import Migrate
 from app.dbcon import db
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
+    
 
     # inittialize database   
     db.init_app(app)
 
+    csrf = CSRFProtect(app)
 
     #initialize login manager
     login_manager = LoginManager()

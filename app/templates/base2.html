@@ -7,6 +7,7 @@
   <title>{% block title %}{{ title }}{% endblock %} - Inventory</title>
   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+
 </head>
 
 <body class="text-center">
@@ -34,37 +35,7 @@
     </nav>
   </div>
 
-  <div class="container">
-    <div class="row">
-      {% if current_user.is_authenticated %}
-      <div class="col-md-2 sidebar">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('product_bp.products_list') }}">List Products</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('product_bp.add_product') }}">Create Product</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('purchase_bp.purchase_list') }}">Purchase Order List</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('purchase_bp.create_purchase_order') }}">New Purchase Orders</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('issue_bp.index') }}">Issue Orders List</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('issue_bp.index') }}">New Issue Orders</a>
-          </li>
-        </ul>
-      </div>
-      {% endif %}
-
-      <div class="col-md-10 main-content">
+    <div class="main-content">
         <div class="content">
           <hr>
           {% with messages = get_flashed_messages(with_categories=true) %}
@@ -88,10 +59,10 @@
       <span>&copy; 2023</span>
     </div>
   </div>
-  
+
   <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-				
+
 </body>
 
 </html>

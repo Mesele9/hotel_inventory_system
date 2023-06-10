@@ -1,23 +1,62 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
+{% block content %}
 
-        {% block content %}
-        <div class="container">
-            <h3>Welcome to the Hotel Inventory Management System!</h3>
-            <p>Streamline and simplify your hotel inventory management with our user-friendly application. Easily track products, manage orders, and maintain accurate stock levels.</p>         
-
-            <h3>Key Features:</h3>
-            <ul>
-                <li>Product Management: Easily create, edit, and delete products in your inventory. Keep track of important details such as product name, description, quantity, and pricing.</li>
-                <li>Order Management: Create purchase orders and issue orders effortlessly. Manage the flow of products in and out of your inventory, ensuring accurate stock levels and timely deliveries.</li>
-                <li>User Authentication: Secure your data with our robust user authentication system. Control access to sensitive features based on user roles, ensuring that only authorized personnel can perform certain actions.</li>
-                <li>Role-Based Access Control: Assign different roles to users, such as administrators and staff members. Customize permissions and restrict access to specific functionalities based on user roles, maintaining data integrity and security.</li>
-            </ul>
-
-            <p>exploring the features and take control of your hotel inventory today!</p> 
-
-            <p>Thank you for choosing our Hotel Inventory Management System!</p>    
+    <div class="jumbotron">
+        <h2 class="display-4">Simple Inventory Management System!</h2>
+        <p class="lead">Simplify and streamline your hotel inventory management with our intuitive application. Easily track products, manage orders, and maintain accurate stock levels.</p>
+    </div>
+         
+        <div class="card">
+            <div class="card-header">
+                <h3>Key Features:</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Product Management</h5>
+                                <p class="card-text">Efficiently create, edit, and delete products in your inventory.</p>
+                                <a href="{{ url_for('product_bp.products_list') }}" class="btn btn-outline-info">Product Management</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Purchase Management</h5>
+                                <p class="card-text">Seamlessly create purchase orders and manage the procurement process.</p>
+                                <a href="{{ url_for('purchase_bp.purchase_list') }}" class="btn btn-outline-info">Purchase Management</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Issue Management</h5>
+                                <p class="card-text">Effectively handle product issuance, keeping track of products leaving your inventory.</p>
+                                <a href="{{ url_for('issue_bp.index') }}" class="btn btn-outline-info">Issue Management</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Role-Based Access Control</h5>
+                                <p class="card-text">Assign different roles to users, such as administrators and staff members.</p>
+                                <a href="{{ url_for('users_bp.users_list') }}" class="btn btn-outline-info">User Management</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+    <div class="mt-4 text-center">
+        <p class="lead">Start managing your hotel inventory today!</p>
+        <a href="{{ url_for('users_bp.login')}}" class="btn btn-lg btn-outline-info">Sign In</a>
+    </div>
                     
 {% endblock %}
 

@@ -5,10 +5,11 @@ from flask_login import current_user
 # define a junction class between purchase order product table
 class ProductPurchaseOrder(db.Model):
     __tablename__ = 'product_purchase_order'
-
-    purchase_order_id = db.Column(db.Integer, db.ForeignKey('purchase_order.id'), primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), primary_key=True)
-    quantity = db.Column(db.Integer)
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    purchase_order_id = db.Column(db.Integer, db.ForeignKey('purchase_order.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
 
 
     def __repr__(self):

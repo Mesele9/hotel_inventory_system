@@ -13,10 +13,10 @@
   <div id="products-container">
     {% for field in form.products %}
       <div class="product-entry">
-        {{ field.product.label }}
-        {{ field.product(class="form-control") }}
-        {{ field.quantity.label }}
-        {{ field.quantity(class="form-control") }}
+        {{ field.form.product.label }}
+        {{ field.form.product(class="form-control") }}
+        {{ field.form.quantity.label }}
+        {{ field.form.quantity(class="form-control") }}
         {% if loop.index > 0 %}
           <button type="button" class="btn btn-danger remove-product">Remove</button>
         {% endif %}
@@ -31,24 +31,6 @@
 </form>
 
 
-
-
-<script>
-  // JavaScript code for dynamically adding/removing product fields
-  document.addEventListener('DOMContentLoaded', function() {
-    var addProductButton = document.getElementById('add-product');
-    var productsContainer = document.getElementById('products-container');
-    var productEntry = document.querySelector('.product-entry');
-    var productIndex = 0;
-    
-    addProductButton.addEventListener('click', function() {
-      var clone = productEntry.cloneNode(true);
-      clone.querySelector('.remove-product').addEventListener('click', function() {
-        this.parentNode.remove();
-      });
-      productsContainer.appendChild(clone);
-    });
-  });
-</script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 {% endblock %}

@@ -16,7 +16,10 @@ class PurchaseForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super(PurchaseForm, self).__init__(*args, **kwargs)
-        self.products[0].product.choices = [(p.id, p.product_name) for p in Products.query.all()]
+        products = Products.query.all()
+
+        for field in self.products:
+            field.product.choices = [(p.id, p.product_name) for p in products]
 
 
     

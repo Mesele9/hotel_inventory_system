@@ -19,5 +19,4 @@ class Products(db.Model):
     issue_order = db.relationship('ProductIssueOrder', backref='products', lazy='dynamic', cascade='all, delete')
 
     def __repr__(self):
-        return '<Product (Name={}), (Category={}), (Unit Price={})(Available Quantity={}>)'.format(
-                self.product_name, self.product_category, self.unit_price, self.quantity)
+        return '{}: Available Quantity={}'.format(self.product_name, self.quantity)

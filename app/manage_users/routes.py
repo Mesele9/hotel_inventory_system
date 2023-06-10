@@ -5,6 +5,8 @@ from app.manage_users.form import LoginForm, RegistrationForm, EditAccountForm
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+
 users_bp = Blueprint('users_bp', __name__, url_prefix='/users')
 
 
@@ -23,7 +25,7 @@ def login():
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
             flash('Welcome ({})'.format(user.name), 'success')
-            return redirect(next_page) if next_page else redirect(url_for('index'))
+            return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
             flash('Login Unsuccessful, please check your Username or Password', 'danger')
         
@@ -38,7 +40,7 @@ def logout():
 
 
 @users_bp.route('/add_user', methods=['GET', 'POST'])
-@login_required
+#@login_required
 def add_user():
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -47,7 +49,7 @@ def add_user():
         db.session.add(new_user)
         db.session.commit()
         flash('Account created for {}!'.format(form.username.data), 'success')
-        return redirect(url_for('users_bp.list'))
+        return redirect(url_for('users_bp.users_list'))
         
     return render_template('users_auth/add_user.html', title='Add User', form=form)
 

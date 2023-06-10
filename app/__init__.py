@@ -3,19 +3,18 @@ from flask import Flask, render_template, url_for
 from config import Config
 from flask_migrate import Migrate
 from app.dbcon import db
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required
 from flask_wtf.csrf import CSRFProtect
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
     app.config.from_object(config_class)
-    
-
+    app.debug = True    
+    csrf = CSRFProtect(app)
     # inittialize database   
     db.init_app(app)
 
-    csrf = CSRFProtect(app)
 
     #initialize login manager
     login_manager = LoginManager()
@@ -51,12 +50,17 @@ def create_app(config_class=Config):
     @app.route('/')
     def index():
         return render_template('main.html')
+    
+    @app.route('/dashboard')
+    @login_required
+    def dashboard():
+        products = Products.query.all()
+        notification =[]
+        for product in products:
+            if product.quantity < product.reorder_level:
+                notification.append(product)
+
+
+        return render_template('dashboard.html', title='Dashboard', notification=notification)
 
     return app
-
-
-#from app import create_app
-
-
-
-

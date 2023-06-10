@@ -29,17 +29,22 @@ def create_purchase_order():
             # create the purchase order instance
             purchase_order = PurchaseOrder(created_by=current_user.id, supplier=form.supplier.data)
             db.session.add(purchase_order)
-            db.session.commit()
             print(form.data)
-
+            db.session.commit()    
             for entry in form.products.entries:
-                product_id = entry.form.product.data
-                quantity = entry.form.quantity.data
+                if entry.form.product.data:
+                    product_id = entry.form.product.data
+                    quantity = entry.form.quantity.data
 
-                product_purchase_order = ProductPurchaseOrder(purchase_order_id=purchase_order.id, product_id=product_id, quantity=quantity
+                    product_purchase_order = ProductPurchaseOrder(
+                        purchase_order_id=purchase_order.id,
+                        product_id=product_id,
+                        quantity=quantity
                         )
-            
-                db.session.add(product_purchase_order)
+                    
+                    db.session.add(product_purchase_order)
+                   
+        
             db.session.commit()
 
             flash('Purchase Order{} created successfully'.format(purchase_order.id))

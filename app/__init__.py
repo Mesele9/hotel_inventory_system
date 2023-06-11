@@ -10,7 +10,6 @@ from flask_wtf.csrf import CSRFProtect
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder='static')
     app.config.from_object(config_class)
-    app.debug = True    
     csrf = CSRFProtect(app)
     # inittialize database   
     db.init_app(app)

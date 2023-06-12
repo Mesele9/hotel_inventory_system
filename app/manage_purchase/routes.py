@@ -5,6 +5,7 @@ from app.dbcon import db
 from flask_login import login_required, current_user
 from app.models.purchase import PurchaseOrder, ProductPurchaseOrder
 from app.manage_purchase.form import PurchaseForm, ProductForm
+from app.models.products import Products
 
 
 purchase_bp = Blueprint('purchase_bp', __name__, url_prefix='/purchase')
@@ -54,3 +55,13 @@ def create_purchase_order():
     
     else:
         return render_template('/purchase/new_purchase.html', title='Create Purchase Order', form=form)
+
+
+@purchase_bp.route('/<int:id>', methods=('GET', 'POST'))
+@login_required
+def product_purchase_order(id):
+    products_purchase = ProductPurchaseOrder.query.filter_by(id=id).first()
+    product = Products.query.filter_by(id=products_purchase.product_id).first()
+    return render_template('purchase/purchase_detail.html', title='Purchase Order Detail', products_purchase=products_purchase, product=product)    
+
+    

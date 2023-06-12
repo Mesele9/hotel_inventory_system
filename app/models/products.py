@@ -1,5 +1,5 @@
 from app.dbcon import db
-from app.models.purchase import ProductPurchaseOrder
+from app.models.purchase import ProductPurchaseOrder, PurchaseOrder
 from app.models.issue import ProductIssueOrder
 
 
@@ -20,3 +20,9 @@ class Products(db.Model):
 
     def __repr__(self):
         return '{}: Available Quantity={}'.format(self.product_name, self.quantity)
+    
+
+    def product_purchased(self, status):
+        if purchase_order.status == 'purchased':
+            self.quantity += purchase_order.products.quantity
+        return self.quantity

@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<form method="POST" action="{{ url_for('purchase_bp.create_purchase_order') }}">
+<form method="POST" action="{{ url_for('purchase_bp.edit_purchase_order', id=id) }}">
   {{ form.csrf_token }}
   
-  <h2>Create Purchase Order</h2>
+  <h2>Edit Purchase Order</h2>
   <div>
     {{ form.supplier.label }}
     {{ form.supplier(class="form-control") }}
@@ -14,7 +14,7 @@
      {{ form.status.label }}
      {{ form.status(class="form-control") }}
   </div>
-  <div id="products-container">
+  <!-- <div id="products-container">
     {% for field in form.products %}
       <div class="product-entry">
         {{ field.form.product.label }}
@@ -24,17 +24,12 @@
         {% if loop.index > 0 %}
           <button type="button" class="btn btn-danger remove-product">Remove</button>
         {% endif %}
-      </div>
-    {% endfor %}
-  </div>
-  
-  <button type="button" class="btn btn-primary" id="add-product">Add Product</button>
-  <br><br>
+      </div> 
+    {% endfor %} 
+  </div> -->
   
   {{ form.submit(class="btn btn-primary") }}
 </form>
 
-
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 {% endblock %}

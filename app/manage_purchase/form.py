@@ -12,6 +12,7 @@ class ProductForm(FlaskForm):
 class PurchaseForm(FlaskForm):
     supplier = StringField('Supplier', validators=[DataRequired()])
     products = FieldList(FormField(ProductForm), min_entries=1)
+    status = SelectField('Status', choices=[('created', 'Created'), ('approved', 'Approved'), ('purchased', 'Purchased')], validators=[DataRequired()])
     submit = SubmitField('Create Purchase Order')
 
     def __init__(self, *args, **kwargs):
@@ -22,4 +23,7 @@ class PurchaseForm(FlaskForm):
             field.product.choices = [(p.id, p.product_name) for p in products]
 
 
-    
+class EditPurchaseForm(FlaskForm):
+    supplier = StringField('Supplier', validators=[DataRequired()])
+    status = SelectField('Status', choices=[('created', 'Created'), ('approved', 'Approved'), ('purchased', 'Purchased')], validators=[DataRequired()])
+    submit = SubmitField('Edit Purchase Order')    

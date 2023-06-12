@@ -26,4 +26,4 @@ class PurchaseForm(FlaskForm):
 class EditPurchaseForm(FlaskForm):
     supplier = StringField('Supplier', validators=[DataRequired()])
     status = SelectField('Status', choices=[('created', 'Created'), ('approved', 'Approved'), ('purchased', 'Purchased')], validators=[DataRequired()])
-    submit = SubmitField('Edit Purchase Order')    
+    submit = SubmitField('Update')    

@@ -12,6 +12,7 @@
         <h5 class="text-center">Product: {{ product.product_name }}</h5>
         <h5 class="text-center">Qunatity: {{ products_purchase.quantity }}</h5>
     </div>
+    <a href="{{ url_for('purchase_bp.edit_purchase_order', id=products_purchase.id)}}" class="btn btn-primary btn-sm" style="margin-right: 1.5rem;">Edit</a>
 </div>
  
 

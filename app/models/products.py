@@ -18,11 +18,7 @@ class Products(db.Model):
     purchase_order = db.relationship('ProductPurchaseOrder', backref='products', lazy='dynamic', cascade='all, delete')
     issue_order = db.relationship('ProductIssueOrder', backref='products', lazy='dynamic', cascade='all, delete')
 
+
     def __repr__(self):
         return '{}: Available Quantity={}'.format(self.product_name, self.quantity)
-    
 
-    def product_purchased(self, status):
-        if purchase_order.status == 'purchased':
-            self.quantity += purchase_order.products.quantity
-        return self.quantity

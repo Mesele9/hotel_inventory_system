@@ -6,10 +6,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-
+# create a blueprint for the users management
 users_bp = Blueprint('users_bp', __name__, url_prefix='/users')
-
-
 
 from app.models.users import Users
 
@@ -40,7 +38,7 @@ def logout():
 
 
 @users_bp.route('/add_user', methods=['GET', 'POST'])
-#@login_required
+@login_required
 def add_user():
     form = RegistrationForm()
     if form.validate_on_submit():

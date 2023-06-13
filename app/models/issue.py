@@ -25,7 +25,6 @@ class IssueOrder(db.Model):
     requested_by = db.Column(db.Integer, db.ForeignKey('users.id'))
     status = db.Column(db.String(20), default='Requested')
 
-
     users = db.relationship("Users", backref="issue_order")
     products = db.relationship('ProductIssueOrder', backref='issue_order', lazy='dynamic', cascade='all, delete')
 

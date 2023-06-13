@@ -2,7 +2,6 @@ from app.dbcon import db
 from flask_login import UserMixin
 
 
-
 # define the user model
 class Users(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -16,4 +15,3 @@ class Users(db.Model, UserMixin):
 
     def __repr__(self):
         return '<User (Name: {}, Username: {}) Role: {}'.format(self.name, self.username, self.role)
-    

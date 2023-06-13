@@ -27,14 +27,9 @@ class PurchaseOrder(db.Model):
     supplier = db.Column(db.String(50))
     status = db.Column(db.String(20), nullable=False, default='created')
 
-
     users = db.relationship('Users', backref='purchase_order')   
     products = db.relationship('ProductPurchaseOrder', backref='purchase_order', lazy='dynamic', cascade='all, delete') 
 
 
     def __repr__(self):
         return '<Purchase Order: ID={} User ID={}: Status={}>'.format(self.id, self.created_by, self.status)
-    
-
-    
-

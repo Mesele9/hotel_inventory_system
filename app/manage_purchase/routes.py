@@ -67,7 +67,7 @@ def product_purchase_order(id):
 def edit_purchase_order(id):
     purchase_order = PurchaseOrder.query.filter_by(id=id).first()
     if current_user.role != 'manager' and current_user.role !='admin':
-        flash('Action not allowed!')
+        flash('You are not allowed to perform this action!', 'danger')
         return redirect(url_for('index'))
     form = EditPurchaseForm()
     if request.method == 'POST':
@@ -86,42 +86,11 @@ def edit_purchase_order(id):
                 db.session.commit()
                 flash('{} {} has been purchased'.format(product_purchase_order.quantity, product_purchase_order.product_id), 'success')
                 return redirect(url_for('product_bp.products_list'))
-            """ purchase_order = PurchaseOrder(created_by=current_user.id, supplier=form.supplier.data, status=form.status.data)
-            db.session.add(purchase_order)
-            db.session.commit()    
-            for entry in form.products.entries:
-                if entry.form.product.data:
-                    product_id = entry.form.product.data
-                    quantity = entry.form.quantity.data
-
-                    product_purchase_order = ProductPurchaseOrder(
-                        purchase_order_id=purchase_order.id,
-                        product_id=product_id,
-                        quantity=quantity
-                        )
-                    
-                    db.session.add(product_purchase_order)
                    
-        
-            db.session.commit()
-
-            flash('Purchase Order{} created successfully'.format(purchase_order.id)) """
             return redirect(url_for('purchase_bp.product_purchase_order', id=purchase_order.id))
         
     elif request.method == 'GET':
         form.supplier.data = purchase_order.supplier
         form.status.data = purchase_order.status
-        
-        
-    
+            
     return render_template('/purchase/edit_purchase.html', title='Edit Purchase Order', form=form, id=id)
-
-
-@purchase_bp.route('/<int:id>', methods=('GET', 'POST'))
-@login_required
-def purchase_order_update(id):
-
-    products_purchase = ProductPurchaseOrder.query.filter_by(id=id).first()
-    product = Products.query.filter_by(id=products_purchase.product_id).first()
-    return render_template('purchase/purchase_detail.html', title='Purchase Order Detail', products_purchase=products_purchase, product=product) 
-    

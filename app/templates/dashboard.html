@@ -4,40 +4,38 @@
 
     <!-- Main Content -->
     <div class="container-fluid">
-        <h1>Dashboard</h1>
         <div class="row">
             <div class="col-md-10">
                 <!-- Display low stock items here -->
                 <h3>Low Stock Items</h3>
                 <div class="notification-container">
-		<div class="table-responsive">
-		<table class="table table-striped">
-		<thead>
-		<tr>
-			<th>Product Name</th>
-			<th>Category</th>
-			<th>Quantity</th>
-			<th>Reorder Level</th>
-		</tr>
-		</thead>
-		<tbody>
-			{% for n in notification %}
-			    <tr>
-				<td>{{ n.product_name }}</td>
-				<td>{{ n.product_category }}</td>
-				<td>{{ n.quantity }}</td>
-				<td>{{ n.reorder_level }}</td>
-			    </tr>
-			 {% endfor %}
+					<div class="table-responsive">
+						<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Product Name</th>
+								<th>Category</th>
+								<th>Quantity</th>
+								<th>Reorder Level</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for n in notification %}
+			    			<tr>
+								<td>{{ n.product_name }}</td>
+								<td>{{ n.product_category }}</td>
+								<td>{{ n.quantity }}</td>
+								<td>{{ n.reorder_level }}</td>
+			    			</tr>
+			 				{% endfor %}
 				
-		</tbody>
-		</table>
+						</tbody>
+						</table>
+					</div>
+            	</div>
+        	</div>   
 		</div>
-            </div>
-        </div>
-    </div>
-    
-
+	</div>   
 
 {% endblock %}
 

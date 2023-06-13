@@ -14,19 +14,6 @@
      {{ form.status.label }}
      {{ form.status(class="form-control") }}
   </div>
-  <!-- <div id="products-container">
-    {% for field in form.products %}
-      <div class="product-entry">
-        {{ field.form.product.label }}
-        {{ field.form.product(class="form-control") }}
-        {{ field.form.quantity.label }}
-        {{ field.form.quantity(class="form-control") }}
-        {% if loop.index > 0 %}
-          <button type="button" class="btn btn-danger remove-product">Remove</button>
-        {% endif %}
-      </div> 
-    {% endfor %} 
-  </div> -->
   
   {{ form.submit(class="btn btn-primary") }}
 </form>

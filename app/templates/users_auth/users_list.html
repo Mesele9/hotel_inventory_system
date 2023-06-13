@@ -3,6 +3,33 @@
 {% block content %}
 
 <div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for user in user_list %}
+            <tr>
+                <td>{{ user.name }}</a></td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <a href="{{ url_for('users_bp.account', id=user.id) }}" class="btn btn-primary btn-sm" style="margin-right: 1.5rem;">Edit</a>
+                    <a href="{{ url_for('users_bp.delete_user', id=user.id) }}" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteProductModal">Delete</a>   
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+<div class="container">
     {% for user in user_list %}
     <div class=>
         <p><a href="{{ url_for('users_bp.user_detail', id=user.id) }}">{{ user.name }} </a> : {{ user.username }} : {{ user.role }}</p>

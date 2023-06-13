@@ -38,7 +38,11 @@ To run the Hotel Inventory Management System locally, follow these steps:
 5. Access the application in your web browser at `http://localhost:5000`.
 
 
+## License
+
+This project is licensed under MIT License.
+
+
 ## Contact
 
 For any inquiries or further information, please contact [Mesele Assefa] at [getmesy@gmail.com].
-

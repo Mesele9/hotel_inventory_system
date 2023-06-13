@@ -29,13 +29,4 @@
 </div>
 </div>
 
-<div class="container">
-    {% for user in user_list %}
-    <div class=>
-        <p><a href="{{ url_for('users_bp.user_detail', id=user.id) }}">{{ user.name }} </a> : {{ user.username }} : {{ user.role }}</p>
-        <hr>
-    </div>
-    {% endfor %}
-</div>
-
 {% endblock %}

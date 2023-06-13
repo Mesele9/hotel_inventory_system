@@ -13,4 +13,4 @@ class Config:
     SECRET_KEY = os.urandom(16).hex()
     SQLALCHEMY_DATABASE_URI = "postgresql://{}:{}@{}/{}".format(db_username, db_password, db_host, db_name)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    WTF_CSRF_ENABLED = False
+    WTF_CSRF_ENABLED = True

@@ -14,7 +14,6 @@ def create_app(config_class=Config):
     # inittialize database   
     db.init_app(app)
 
-
     #initialize login manager
     login_manager = LoginManager()
     login_manager.login_view = 'users_bp.login'
@@ -28,12 +27,10 @@ def create_app(config_class=Config):
     # initialize migration
     migrate = Migrate(app, db)
 
-
     # import all models from Models directory
     from app.models.users import Users
     from app.models.products import Products
     from app.manage_users.form import LoginForm 
-
 
     # register blueprints
     from app.manage_users.routes import users_bp
@@ -49,7 +46,8 @@ def create_app(config_class=Config):
     @app.route('/')
     def index():
         return render_template('main.html')
-    
+
+
     @app.route('/dashboard')
     @login_required
     def dashboard():
@@ -58,7 +56,6 @@ def create_app(config_class=Config):
         for product in products:
             if product.quantity < product.reorder_level:
                 notification.append(product)
-
 
         return render_template('dashboard.html', title='Dashboard', notification=notification)
 
